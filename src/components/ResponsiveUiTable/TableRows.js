@@ -1,11 +1,10 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import Checkbox from '../Checkbox';
 import RadioButton from '../RadioButton/RadioButton';
 
 import { TableContext } from './context';
 
 export default function TableRows() {
-  const [canHighlight, highlightRow] = useState(false)
   const {
     rowsSelectionType,
     columnDefs,
@@ -20,6 +19,26 @@ export default function TableRows() {
     columnId: 'id',
     type: 'string',
   }, ...columnDefs]
+
+  const updateSelectedSingleRow = (row) => {
+    updateSelectedRowsIndex([row?.id])
+    onRowSelection(row);
+  }
+
+  const updateSelectedMultipleRows = (row) => {
+    const selectedRowIndexSet = new Set([row?.id, ...selectedRowsIndex])
+    updateSelectedRowsIndex(
+      Array.from(selectedRowIndexSet.values())
+    )
+  }
+
+  const updateDeselectedRow = (row) => {
+    const unCheckedRowId = selectedRowsIndex.indexOf(row?.id)
+    selectedRowsIndex.splice(unCheckedRowId, 1)
+    updateSelectedRowsIndex(
+      [...selectedRowsIndex]
+    )
+  }
 
   return (
     <>
@@ -40,30 +59,16 @@ export default function TableRows() {
                 return (
                   <div key={columnId} className={classNames}>
                     <div className="Rtable-cell--content date-content">
-                      {rowsSelectionType === 'single' && (<RadioButton name="selection" onSelect={() => {
-                        updateSelectedRowsIndex([row?.id])
+                      {rowsSelectionType === 'single' && (<RadioButton name="selection" onSelect={() => updateSelectedSingleRow(row)} />)}
+                      {rowsSelectionType === 'multiple' && (<Checkbox name="selection" onSelect={(e) => {
+                        const updateSelectedRowsMethod = (e.target.checked) ? updateSelectedMultipleRows : updateDeselectedRow;
+                        updateSelectedRowsMethod(row);
                         onRowSelection(row);
                       }} />)}
-                      {rowsSelectionType === 'multiple' && (<Checkbox name="selection" onSelect={(e) => {
-                        if (e.target.checked) {
-                          const selectedRowIndexSet = new Set([row?.id, ...selectedRowsIndex])
-                          updateSelectedRowsIndex(
-                            Array.from(selectedRowIndexSet.values())
-                          )
-                        } else {
-                          const unCheckedRowId = selectedRowsIndex.indexOf(row?.id)
-                          selectedRowsIndex.splice(unCheckedRowId, 1)
-                          updateSelectedRowsIndex(
-                            [...selectedRowsIndex]
-                          )
-                        }
-
-                        onRowSelection(row);
-                      }} />)}                      
                     </div>
                   </div>
-                )             
-              } 
+                )
+              }
 
               return (
                 <div key={columnId} className={classNames}>
