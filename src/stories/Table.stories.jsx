@@ -8,7 +8,6 @@ export default {
   component: ResponsiveUiTable,
   // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
   argTypes: {
-    backgroundColor: { control: 'color' },
   },
 };
 
