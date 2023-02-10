@@ -62,7 +62,7 @@ function App() {
           id="person-list"
           columnDefs={columnDefs}
           rowsData={rowsData}
-          rowsSelectionType="single"
+          rowsSelectionType="multiple"
           noRowDataComponent={<span>No data!</span>}
           sorting
           onRowSelection={(row) => {

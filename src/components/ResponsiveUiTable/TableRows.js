@@ -43,7 +43,7 @@ export default function TableRows() {
   return (
     <>
       {rowsData.map(row => {
-        const rowClassNames = `Rtable-row ${selectedRowsIndex.includes(row.id) ? 'selected-cell' : ''}`
+        const rowClassNames = `Rtable-row row-data ${selectedRowsIndex.includes(row.id) ? 'selected-cell' : ''}`
         return (
           <div key={`row-${row.id}`} className={rowClassNames}>
             {columns.map(column => {
@@ -52,7 +52,7 @@ export default function TableRows() {
               const classNames = `Rtable-cell ${columnId}-cell ${columnId}-${type}-cell`
 
               if (columnId === 'id') {
-                if (!['single', 'multiple'].includes(rowsSelectionType)) {
+                if (!rowsSelectionType) {
                   return null
                 }
 

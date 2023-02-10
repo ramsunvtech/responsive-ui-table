@@ -43,9 +43,21 @@
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
 }
 
+.Rtable .Rtable-row.row-data {
+  padding:0 1em;
+}
+
 .Rtable .Rtable-row {
   width: 100%;
   display: flex;
+}
+
+.Rtable .Rtable-row:last-child .Rtable-cell {
+  border-bottom: 0 none;
+}
+
+.Rtable .Rtable-row .Rtable-cell:first-child {
+  padding: 0.6em 0.5em 0.5em 0.6em;
 }
 
 .Rtable .Rtable-row .Rtable-cell {
@@ -58,8 +70,10 @@
   width:30%;
 }
 
+
+
 .Rtable .Rtable-row .Rtable-cell.id-cell {
-  width: 6%;
+  width: 5%;
 }
 
 .Rtable .Rtable-row.selected-cell {
@@ -71,6 +85,10 @@
   color: #000000;
   padding: 1.5em;
   font-weight: bold;
+}
+
+.Rtable .Rtable-row .Rtable-cell.column-heading span {
+  cursor: pointer;
 }
 
 .Rtable .Rtable-row .Rtable-cell .Rtable-cell--heading {
