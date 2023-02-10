@@ -38,25 +38,25 @@ const rowsData = [{
   name: 'Mavis Chen',
   mobile: '8899 7654',
   expiry: '01/10/2022',
-  penalty: '600',
+  penalty: '500',
 }, {
   id: 2,
   name: 'Rodney Artichoke',
   mobile: '9988 7676',
   expiry: '01/12/2022',
-  penalty: '600',
+  penalty: '700',
 }, {
   id: 3,
   name: 'Valentino Morose',
   mobile: '8900 7654',
   expiry: '01/01/2022',
-  penalty: '600',
+  penalty: '800',
 }, {
   id: 4,
   name: 'Eric Widget',
   mobile: '8899 7654',
   expiry: '01/01/2022',
-  penalty: '600',
+  penalty: '900',
 }]
 
 // More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args

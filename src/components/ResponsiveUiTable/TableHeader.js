@@ -3,6 +3,7 @@ import { TableContext } from './context';
 import SortAscendingIcon from '../../static/images/sort-asc.svg';
 import SortDescendingIcon from '../../static/images/sort-desc.svg';
 import { sortData } from '../../utils/table'
+import Checkbox from '../Checkbox';
 
 export default function TableHeader() {
   const {
@@ -10,8 +11,10 @@ export default function TableHeader() {
     sortOption,
     updateRowsData,
     updateSortOptions,
+    pagePerRecords,
     rowsSelectionType,
-    columnDefs
+    columnDefs,
+    updateSelectedRowsIndex
   } = useContext(TableContext)
 
   const columns = [{
@@ -25,9 +28,9 @@ export default function TableHeader() {
   const { order } = sortOption || {}
   let sortingIcon = SortAscendingIcon
 
-  if(order == 'asc') {
+  if (order == 'asc') {
     sortingIcon = SortAscendingIcon
-  } else if(order == 'desc') {
+  } else if (order == 'desc') {
     sortingIcon = SortDescendingIcon
   }
 
@@ -67,16 +70,23 @@ export default function TableHeader() {
         const { columnId, label } = column;
         const classNames = `Rtable-cell column-heading ${columnId}-cell`
 
-        if (
-          columnId === 'id' &&
-          rowsSelectionType === ''
-        ) {
-          return null
-        }
-
         return (
           <div key={columnId} className={classNames}>
-            <span onClick={() => sortColumn(columnId)}>{label}</span>
+            {columnId === 'id' && rowsSelectionType === 'multiple' && (<Checkbox name="selection" onSelect={(e) => {
+              let allRowIndex = pagePerRecords
+              if( pagePerRecords > rowsData.length) {
+                allRowIndex = Array.from(Array(rowsData.length).keys())
+              }
+              if(e.target.checked) {
+                updateSelectedRowsIndex(
+                  rowsData.map(row => row.id)
+                )
+                return
+              }
+
+              updateSelectedRowsIndex([])
+            }} />)}
+            {columnId !== 'id' && (<span onClick={() => sortColumn(columnId)}>{label}</span>)}
             {columnId !== 'id' && (sortOption?.by === columnId) && (<img
               src={sortingIcon}
               style={{ height: 10, width: 15 }}

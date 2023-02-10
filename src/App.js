@@ -63,6 +63,7 @@ function App() {
           columnDefs={columnDefs}
           rowsData={rowsData}
           rowsSelectionType="multiple"
+          pagePerRecords={10}
           noRowDataComponent={<span>No data!</span>}
           sorting
           onRowSelection={(row) => {

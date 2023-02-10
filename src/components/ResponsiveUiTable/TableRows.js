@@ -60,7 +60,7 @@ export default function TableRows() {
                   <div key={columnId} className={classNames}>
                     <div className="Rtable-cell--content date-content">
                       {rowsSelectionType === 'single' && (<RadioButton name="selection" onSelect={() => updateSelectedSingleRow(row)} />)}
-                      {rowsSelectionType === 'multiple' && (<Checkbox name="selection" onSelect={(e) => {
+                      {rowsSelectionType === 'multiple' && (<Checkbox name="selection" checked={selectedRowsIndex.includes(row.id)} onSelect={(e) => {
                         const updateSelectedRowsMethod = (e.target.checked) ? updateSelectedMultipleRows : updateDeselectedRow;
                         updateSelectedRowsMethod(row);
                         onRowSelection(row);
