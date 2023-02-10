@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { TableContext } from './context';
 import SortAscendingIcon from '../../static/images/sort-asc.svg';
+import SortDescendingIcon from '../../static/images/sort-desc.svg';
 import { sortData } from '../../utils/table'
 
 export default function TableHeader() {
@@ -20,6 +21,15 @@ export default function TableHeader() {
   },
   ...columnDefs,
   ]
+
+  const { order } = sortOption || {}
+  let sortingIcon = SortAscendingIcon
+
+  if(order == 'asc') {
+    sortingIcon = SortAscendingIcon
+  } else if(order == 'desc') {
+    sortingIcon = SortDescendingIcon
+  }
 
   return (
     <div className="Rtable-row Rtable-row--head header">
@@ -67,9 +77,9 @@ export default function TableHeader() {
           }}>
             {label}
             {(sortOption?.by === columnId) && (<img
-              src={SortAscendingIcon}
+              src={sortingIcon}
               style={{ height: 10, width: 15 }}
-              alt="website logo"
+              alt="sort"
             />)}
           </div>
         )

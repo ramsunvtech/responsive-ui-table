@@ -14,9 +14,9 @@ Done - Basic Multiple Selections
 Done - Basic Sortable Rows
 Done - Sorting Basic Implementation
 Done - Basic Checkbox Button
+- Basic Mobile Styles.
 - Fix Left and Padding for rows borders.
 - Sort by date as well
-- Basic Mobile Styles.
 - Fix Radio button and Checkbox span issue
 - Fix Radio button and Checkbox style match figma
 - Select the Row on Click
