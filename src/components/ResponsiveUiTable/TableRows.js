@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useCallback, createRef } from 'react';
+import React, { useContext, useRef, Fragment, createRef } from 'react';
 import Checkbox from '../Checkbox';
 import RadioButton from '../RadioButton/RadioButton';
 
@@ -7,8 +7,8 @@ import { TableContext } from './context';
 export default function TableRows() {
   const {
     rowsSelectionType,
-    columnDefs,
-    rowsData,
+    columnDefs = [],
+    rowsData = [],
     onRowSelection,
     getSelectedRowsIndex,
     updateSelectedRowsIndex
@@ -45,7 +45,7 @@ export default function TableRows() {
   }
 
   return (
-    <>
+    <Fragment>
       {rowsData.map((row, rowIndex) => {
         lineRefs.current[rowIndex] = lineRefs.current[rowIndex] || createRef()
         const { id: rowId } = row;
@@ -87,6 +87,6 @@ export default function TableRows() {
           </div>
         )
       })}
-    </>
+    </Fragment>
   )
 }

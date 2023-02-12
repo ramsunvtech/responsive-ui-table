@@ -14,20 +14,30 @@ export default function ResponsiveUiTable(props) {
     columnDefs,
     pagePerRecords,
     rowsSelectionType,
-    sorting,
+    sortable,
     onRowSelection,
     noRowDataComponent = null
   } = props;
+  let hasTablePropsError = false;
+
+  if (
+    !columnDefs || columnDefs?.length === 0 || !initialRowsData || initialRowsData?.length === 0
+  ) {
+    hasTablePropsError = true;
+  }
+
   const [rowsData, updateRowsData] = useState(initialRowsData)
   const [selectedRowsIndex, updateSelectedRowsIndexState] = useState([])
   const [sortOption, updateSortOptions] = useState({
-    sorting,
+    sortable,
     by: rowIdName,
     order: 'asc'
   })
 
-  if (rowsData.length === 0 && noRowDataComponent) {
-    return noRowDataComponent
+  if (hasTablePropsError) {
+    return noRowDataComponent || (
+      <p>Technical Error, Please try again later.</p>
+    )
   }
 
   const getSelectedRowsIndex = () => {
@@ -41,6 +51,7 @@ export default function ResponsiveUiTable(props) {
 
   const tableContext = {
     id,
+    sortable,
     singleColumnLayoutTitle,
     columnDefs,
     rowsSelectionType,
@@ -53,9 +64,9 @@ export default function ResponsiveUiTable(props) {
     updateSortOptions,
     updateTableSelection: (isSelected) => {
       let selectedRowIndex = []
-      if (pagePerRecords > rowsData.length) {
+      if (pagePerRecords > rowsData?.length) {
         selectedRowIndex = rowsData.map(row => row[rowIdName])
-      } else if(pagePerRecords < rowsData.length) {
+      } else if(pagePerRecords < rowsData?.length) {
         selectedRowIndex = Array.from(Array(pagePerRecords).keys()).map(index => rowsData[index][rowIdName])
       }
 

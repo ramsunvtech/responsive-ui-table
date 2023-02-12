@@ -1,4 +1,4 @@
-export function sortData(data, by, order, type = 'string') {
+export function sortData(data, by, order) {
   function compare(firstElement, secondElement) {
     // Use toUpperCase() to ignore character casing
     const firstCombination = (order === 'asc') ? firstElement[by] : secondElement[by]

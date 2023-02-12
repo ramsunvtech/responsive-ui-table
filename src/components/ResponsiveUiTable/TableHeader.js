@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, Fragment } from 'react';
 import { TableContext } from './context';
 import SortAscendingIcon from '../../static/images/sort-asc.svg';
 import SortDescendingIcon from '../../static/images/sort-desc.svg';
@@ -7,15 +7,16 @@ import Checkbox from '../Checkbox';
 
 export default function TableHeader() {
   const {
+    sortable,
     singleColumnLayoutTitle,
     pagePerRecords,
-    rowsData,
+    rowsData = [],
     getSelectedRowsIndex,
     sortOption,
     updateRowsData,
     updateSortOptions,
     rowsSelectionType,
-    columnDefs,
+    columnDefs = [],
     updateTableSelection
   } = useContext(TableContext)
 
@@ -67,16 +68,16 @@ export default function TableHeader() {
   }
 
   let selectedRowIndex = []
-  if (pagePerRecords > rowsData.length) {
+  if (pagePerRecords > rowsData?.length) {
     selectedRowIndex = rowsData.map(row => row.id)
-  } else if (pagePerRecords < rowsData.length) {
+  } else if (pagePerRecords < rowsData?.length) {
     selectedRowIndex = Array.from(Array(pagePerRecords).keys()).map(index => rowsData[index].id)
   }
 
   const isAllRowsSelected = (getSelectedRowsIndex()?.length > 0 && getSelectedRowsIndex()?.length === selectedRowIndex?.length)
 
   return (
-    <>
+    <Fragment>
       {singleColumnLayoutTitle && (
         <div className="Rtable-row Rtable-row--mobile-head header">
           {singleColumnLayoutTitle}
@@ -104,6 +105,6 @@ export default function TableHeader() {
           )
         })}
       </div>
-    </>
+    </Fragment>
   )
 }

@@ -1,9 +1,8 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 
 // Components.
 import { ErrorHandler } from '@responsive-ui-table/components'
 import ResponsiveUiTable from '@responsive-ui-table/components/ResponsiveUiTable'
-import RadioButton from './components/RadioButton/RadioButton'
 
 const columnDefs = [{
   label: 'Name',
@@ -55,7 +54,7 @@ const rowsData = [{
 
 function App() {
   return (
-    <>
+    <Fragment>
       <ErrorHandler>
         <h1>Responsive UI Table</h1>
         <ResponsiveUiTable
@@ -66,14 +65,14 @@ function App() {
           rowsSelectionType="multiple"
           singleColumnLayoutTitle="Contract details"
           pagePerRecords={10}
-          noRowDataComponent={<span>No data!</span>}
-          sorting
+          noRowDataComponent={(<span>Sorry, There is no data available. Please try again later</span>)}
+          sortable
           onRowSelection={(row) => {
             // console.log('selected row', row)
           }}
         />
       </ErrorHandler>
-    </>
+    </Fragment>
   )
 }
 
