@@ -27,3 +27,11 @@ npm run coverage
 ```
 
 <img width="724" alt="image" src="https://user-images.githubusercontent.com/1652629/218331594-065d204e-ea07-49a8-9bed-f2135dbb84d4.png">
+
+
+### Build
+
+```
+npm run build
+npm run build-storybook
+```
