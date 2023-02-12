@@ -53,7 +53,7 @@ module.exports = {
     },
   },
   output: {
-    path: path.resolve(__dirname, "public"),
+    path: path.resolve(__dirname, "docs"),
     filename: "responsive-ui-table.js",
     chunkFilename: "[name].js",
   },
