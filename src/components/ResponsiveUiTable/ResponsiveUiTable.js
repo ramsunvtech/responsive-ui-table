@@ -30,6 +30,15 @@ export default function ResponsiveUiTable(props) {
     return noRowDataComponent
   }
 
+  const getSelectedRowsIndex = () => {
+    let currentRowIndexes = []
+    if (selectedRowsIndex) {
+      currentRowIndexes = [...new Set(selectedRowsIndex)]
+    }
+
+    return currentRowIndexes
+  }
+
   const tableContext = {
     id,
     singleColumnLayoutTitle,
@@ -38,7 +47,7 @@ export default function ResponsiveUiTable(props) {
     pagePerRecords,
     sortOption,
     rowsData,
-    getSelectedRowsIndex: () => selectedRowsIndex || [],
+    getSelectedRowsIndex,
     onRowSelection,
     updateRowsData,
     updateSortOptions,
@@ -64,11 +73,11 @@ export default function ResponsiveUiTable(props) {
 
       if (selectRow) {
         updateSelectedRowsIndexState([
-          ...(selectedRowsIndex || []),
+          ...getSelectedRowsIndex(),
           newRowIndex
         ]);
       } else {
-        const currentRowIndexes = [...(selectedRowsIndex || [])];
+        const currentRowIndexes = getSelectedRowsIndex()
         const unCheckedRowIndex = currentRowIndexes.indexOf(newRowIndex);
         currentRowIndexes.splice(unCheckedRowIndex, 1);
         updateSelectedRowsIndexState([

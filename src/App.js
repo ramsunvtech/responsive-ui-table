@@ -63,7 +63,7 @@ function App() {
           columnDefs={columnDefs}
           rowsData={rowsData}
           rowIdName="id"
-          rowsSelectionType="single"
+          rowsSelectionType="multiple"
           singleColumnLayoutTitle="Contract details"
           pagePerRecords={10}
           noRowDataComponent={<span>No data!</span>}
