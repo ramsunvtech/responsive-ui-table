@@ -8,6 +8,8 @@ import './table.css';
 export default function ResponsiveUiTable(props) {
   const {
     id,
+    rowIdName,
+    singleColumnLayoutTitle,
     rowsData: initialRowsData,
     columnDefs,
     pagePerRecords,
@@ -20,7 +22,7 @@ export default function ResponsiveUiTable(props) {
   const [selectedRowsIndex, updateSelectedRowsIndexState] = useState([])
   const [sortOption, updateSortOptions] = useState({
     sorting,
-    by: 'id',
+    by: rowIdName,
     order: 'asc'
   })
 
@@ -30,6 +32,7 @@ export default function ResponsiveUiTable(props) {
 
   const tableContext = {
     id,
+    singleColumnLayoutTitle,
     columnDefs,
     rowsSelectionType,
     pagePerRecords,
@@ -42,9 +45,9 @@ export default function ResponsiveUiTable(props) {
     updateTableSelection: (isSelected) => {
       let selectedRowIndex = []
       if (pagePerRecords > rowsData.length) {
-        selectedRowIndex = rowsData.map(row => row.id)
+        selectedRowIndex = rowsData.map(row => row[rowIdName])
       } else if(pagePerRecords < rowsData.length) {
-        selectedRowIndex = Array.from(Array(pagePerRecords).keys()).map(index => rowsData[index].id)
+        selectedRowIndex = Array.from(Array(pagePerRecords).keys()).map(index => rowsData[index][rowIdName])
       }
 
       updateSelectedRowsIndexState(

@@ -62,7 +62,9 @@ function App() {
           id="person-list"
           columnDefs={columnDefs}
           rowsData={rowsData}
-          rowsSelectionType="multiple"
+          rowIdName="id"
+          rowsSelectionType="single"
+          singleColumnLayoutTitle="Contract details"
           pagePerRecords={10}
           noRowDataComponent={<span>No data!</span>}
           sorting
