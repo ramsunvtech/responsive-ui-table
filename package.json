@@ -4,10 +4,10 @@
   "description": "",
   "scripts": {
     "dev": "webpack serve --mode development",
-    "build": "webpack --mode production --progress",
+    "build": "rm -rf docs && webpack --mode production --progress && npm run build-storybook",
     "clean": "rm -rf node_modules",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook && mv storybook-static docs/storybook",
+    "build-storybook": "build-storybook && mkdir docs/storybook && mv storybook-static/* docs/storybook",
     "docs": "npm run storybook",
     "test": "jest --env=jsdom",
     "coverage": "jest --env=jsdom --coverage"
