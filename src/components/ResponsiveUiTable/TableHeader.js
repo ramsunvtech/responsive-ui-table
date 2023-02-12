@@ -38,6 +38,8 @@ export default function TableHeader() {
   }
 
   const sortColumn = (columnId) => {
+    if (!sortable) return
+
     const { by, order } = sortOption || {}
     let sortFieldName = by
     let sortFieldOrder = order
@@ -87,6 +89,7 @@ export default function TableHeader() {
         {columns.map(column => {
           const { columnId, label } = column;
           const classNames = `Rtable-cell column-heading ${columnId}-cell`
+          const sortingClassName = sortable ? 'sortable' : ''
 
           return (
             <div key={columnId} className={classNames}>
@@ -95,7 +98,7 @@ export default function TableHeader() {
                   e.target.checked
                 )
               }} />)}
-              {columnId !== 'id' && (<span onClick={() => sortColumn(columnId)}>{label}</span>)}
+              {columnId !== 'id' && (<span className={sortingClassName} onClick={() => sortColumn(columnId)}>{label}</span>)}
               {columnId !== 'id' && (sortOption?.by === columnId) && (<img
                 src={sortingIcon}
                 style={{ height: 10, width: 15 }}

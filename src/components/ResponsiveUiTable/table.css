@@ -104,7 +104,7 @@
   border-top-right-radius: 16px;
 }
 
-.Rtable .Rtable-row .Rtable-cell.column-heading span {
+.Rtable .Rtable-row .Rtable-cell.column-heading span.sortable {
   cursor: pointer;
 }
 

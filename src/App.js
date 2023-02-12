@@ -62,7 +62,7 @@ function App() {
           columnDefs={columnDefs}
           rowsData={rowsData}
           rowIdName="id"
-          rowsSelectionType="multiple"
+          rowsSelectionType="single"
           singleColumnLayoutTitle="Contract details"
           pagePerRecords={10}
           noRowDataComponent={(<span>Sorry, There is no data available. Please try again later</span>)}
