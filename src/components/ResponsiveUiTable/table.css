@@ -132,6 +132,15 @@
 
 @media all and (max-width: 750px) {
   .maxi-columns.Rtable--collapse {
+    border: 1px solid #f1f1f1;
+    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.12);
+    background-color: #F7F7F7;
+  }
+
+  .maxi-columns.Rtable--collapse .Rtable-row--mobile-head {
+    display: block;
+    color: #000000;
+    padding: 1.5em;
   }
 
   .maxi-columns.Rtable--collapse .Rtable-row {
@@ -141,15 +150,22 @@
   }
 
   .maxi-columns.Rtable--collapse .Rtable-row.row-data {
+    background-color: #FFFFFF;
     border-bottom: 1px solid #E1E1E1;
     padding: 0.5em 1em;
+  }
+
+  .maxi-columns.Rtable--collapse .Rtable-row.row-data:last-child {
+    border-bottom: 0 none;
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
   }
 
   .maxi-columns.Rtable--collapse .Rtable-row .Rtable-cell {
     width: 100% !important;
     display: flex;
     align-items: center;
-    border-bottom: none;
+    border-bottom: 0 none;
     padding: 0.3em;
   }
 
@@ -199,13 +215,5 @@
     font-size: 24px;
     line-height: 32px;
     color: #000000; */
-  }
-
-  .maxi-columns.Rtable--collapse .Rtable-row--mobile-head {
-    display: block;
-    background-color: #F7F7F7;
-    color: #000000;
-    padding: 1.5em;
-    z-index: -1;
   }
 }
