@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useRef, useCallback, createRef } from 'react';
 import Checkbox from '../Checkbox';
 import RadioButton from '../RadioButton/RadioButton';
 
@@ -10,9 +10,10 @@ export default function TableRows() {
     columnDefs,
     rowsData,
     onRowSelection,
-    selectedRowsIndex,
+    getSelectedRowsIndex,
     updateSelectedRowsIndex
-  } = useContext(TableContext)
+  } = useContext(TableContext);
+  const lineRefs = useRef([]);
 
   const columns = [{
     label: '',
@@ -20,32 +21,42 @@ export default function TableRows() {
     type: 'string',
   }, ...columnDefs]
 
-  const updateSelectedSingleRow = (row) => {
-    updateSelectedRowsIndex([row?.id])
+  const updateSelectedSingleRow = (rowId) => {
+    updateSelectedRowsIndex(rowId)
+  }
+
+  const updateSelectedMultipleRows = (rowId) => {
+    updateSelectedRowsIndex(rowId)
+  }
+
+  const updateDeselectedRow = (rowId) => {
+    updateSelectedRowsIndex(rowId, false)
+  }
+
+  const updateSelectedRow = (row, isSelected) => {
+    const { id: rowId } = row
+    if (rowsSelectionType === 'single') {
+      updateSelectedSingleRow(rowId)
+    } else if (rowsSelectionType === 'multiple') {
+      const updateSelectedRowsMethod = (isSelected) ? updateSelectedMultipleRows : updateDeselectedRow;
+      updateSelectedRowsMethod(rowId);
+    }
     onRowSelection(row);
-  }
-
-  const updateSelectedMultipleRows = (row) => {
-    const selectedRowIndexSet = new Set([row?.id, ...selectedRowsIndex])
-    updateSelectedRowsIndex(
-      Array.from(selectedRowIndexSet.values())
-    )
-  }
-
-  const updateDeselectedRow = (row) => {
-    const unCheckedRowId = selectedRowsIndex.indexOf(row?.id)
-    selectedRowsIndex.splice(unCheckedRowId, 1)
-    updateSelectedRowsIndex(
-      [...selectedRowsIndex]
-    )
   }
 
   return (
     <>
-      {rowsData.map(row => {
-        const rowClassNames = `Rtable-row row-data ${selectedRowsIndex.includes(row.id) ? 'selected-cell' : ''}`
+      {rowsData.map((row, rowIndex) => {
+        lineRefs.current[rowIndex] = lineRefs.current[rowIndex] || createRef()
+        const { id: rowId } = row;
+        const rowClassNames = `Rtable-row row-data ${getSelectedRowsIndex().includes(rowId) ? 'selected-cell' : ''}`
+        const isRowSelected = getSelectedRowsIndex().includes(rowId)
+
         return (
-          <div key={`row-${row.id}`} className={rowClassNames}>
+          <div key={`row-${rowId}`} className={rowClassNames} onClick={() => {
+            const isChecked = lineRefs.current[rowIndex].current.checked
+            updateSelectedRow(row, !isChecked)
+          }}>
             {columns.map(column => {
               const { columnId, label, type } = column;
               const rowValue = row[columnId] || ''
@@ -59,12 +70,8 @@ export default function TableRows() {
                 return (
                   <div key={columnId} className={classNames}>
                     <div className="Rtable-cell--content date-content">
-                      {rowsSelectionType === 'single' && (<RadioButton name="selection" onSelect={() => updateSelectedSingleRow(row)} />)}
-                      {rowsSelectionType === 'multiple' && (<Checkbox name="selection" checked={selectedRowsIndex.includes(row.id)} onSelect={(e) => {
-                        const updateSelectedRowsMethod = (e.target.checked) ? updateSelectedMultipleRows : updateDeselectedRow;
-                        updateSelectedRowsMethod(row);
-                        onRowSelection(row);
-                      }} />)}
+                      {rowsSelectionType === 'single' && (<RadioButton innerRef={lineRefs.current[rowIndex]} key={`radio-${columnId}`} name="selection" checked={isRowSelected} />)}
+                      {rowsSelectionType === 'multiple' && (<Checkbox innerRef={lineRefs.current[rowIndex]} key={`checkbox-${columnId}`} name="selection" checked={isRowSelected} />)}
                     </div>
                   </div>
                 )

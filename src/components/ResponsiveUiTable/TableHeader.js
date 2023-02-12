@@ -7,14 +7,15 @@ import Checkbox from '../Checkbox';
 
 export default function TableHeader() {
   const {
+    pagePerRecords,
     rowsData,
+    getSelectedRowsIndex,
     sortOption,
     updateRowsData,
     updateSortOptions,
-    pagePerRecords,
     rowsSelectionType,
     columnDefs,
-    updateSelectedRowsIndex
+    updateTableSelection
   } = useContext(TableContext)
 
   const columns = [{
@@ -64,6 +65,15 @@ export default function TableHeader() {
     })
   }
 
+  let selectedRowIndex = []
+  if (pagePerRecords > rowsData.length) {
+    selectedRowIndex = rowsData.map(row => row.id)
+  } else if(pagePerRecords < rowsData.length) {
+    selectedRowIndex = Array.from(Array(pagePerRecords).keys()).map(index => rowsData[index].id)
+  }
+
+  const isAllRowsSelected = (getSelectedRowsIndex()?.length > 0 && getSelectedRowsIndex()?.length === selectedRowIndex?.length)
+
   return (
     <div className="Rtable-row Rtable-row--head header">
       {columns.map(column => {
@@ -72,19 +82,10 @@ export default function TableHeader() {
 
         return (
           <div key={columnId} className={classNames}>
-            {columnId === 'id' && rowsSelectionType === 'multiple' && (<Checkbox name="selection" onSelect={(e) => {
-              let allRowIndex = pagePerRecords
-              if( pagePerRecords > rowsData.length) {
-                allRowIndex = Array.from(Array(rowsData.length).keys())
-              }
-              if(e.target.checked) {
-                updateSelectedRowsIndex(
-                  rowsData.map(row => row.id)
-                )
-                return
-              }
-
-              updateSelectedRowsIndex([])
+            {columnId === 'id' && rowsSelectionType === 'multiple' && (<Checkbox name="selection" checked={isAllRowsSelected} onSelect={(e) => {
+              updateTableSelection(
+                e.target.checked
+              )
             }} />)}
             {columnId !== 'id' && (<span onClick={() => sortColumn(columnId)}>{label}</span>)}
             {columnId !== 'id' && (sortOption?.by === columnId) && (<img

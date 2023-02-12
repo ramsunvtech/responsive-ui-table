@@ -1,4 +1,4 @@
-import React, { useState, useReducer } from 'react'
+import React, { useState } from 'react'
 import { TableContext } from './context';
 import TableHeader from './TableHeader'
 import TableRows from './TableRows'
@@ -10,13 +10,14 @@ export default function ResponsiveUiTable(props) {
     id,
     rowsData: initialRowsData,
     columnDefs,
+    pagePerRecords,
     rowsSelectionType,
     sorting,
     onRowSelection,
     noRowDataComponent = null
   } = props;
   const [rowsData, updateRowsData] = useState(initialRowsData)
-  const [selectedRowsIndex, updateSelectedRowsIndex] = useState([])
+  const [selectedRowsIndex, updateSelectedRowsIndexState] = useState([])
   const [sortOption, updateSortOptions] = useState({
     sorting,
     by: 'id',
@@ -31,13 +32,47 @@ export default function ResponsiveUiTable(props) {
     id,
     columnDefs,
     rowsSelectionType,
+    pagePerRecords,
     sortOption,
     rowsData,
-    selectedRowsIndex,
+    getSelectedRowsIndex: () => selectedRowsIndex || [],
     onRowSelection,
     updateRowsData,
     updateSortOptions,
-    updateSelectedRowsIndex
+    updateTableSelection: (isSelected) => {
+      let selectedRowIndex = []
+      if (pagePerRecords > rowsData.length) {
+        selectedRowIndex = rowsData.map(row => row.id)
+      } else if(pagePerRecords < rowsData.length) {
+        selectedRowIndex = Array.from(Array(pagePerRecords).keys()).map(index => rowsData[index].id)
+      }
+
+      updateSelectedRowsIndexState(
+        ...(
+          isSelected ? [selectedRowIndex] : []
+        )
+      )
+    },
+    updateSelectedRowsIndex: (newRowIndex, selectRow = true) => {
+      if (rowsSelectionType === 'single') {
+        updateSelectedRowsIndexState([newRowIndex])
+        return;
+      }
+
+      if (selectRow) {
+        updateSelectedRowsIndexState([
+          ...(selectedRowsIndex || []),
+          newRowIndex
+        ]);
+      } else {
+        const currentRowIndexes = [...(selectedRowsIndex || [])];
+        const unCheckedRowIndex = currentRowIndexes.indexOf(newRowIndex);
+        currentRowIndexes.splice(unCheckedRowIndex, 1);
+        updateSelectedRowsIndexState([
+          currentRowIndexes
+        ])
+      }
+    }
   }
 
   return (
