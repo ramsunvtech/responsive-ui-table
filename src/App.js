@@ -32,25 +32,25 @@ const rowsData = [{
   name: 'Mavis Chen',
   mobile: '8899-7654',
   expiry: '01/10/2022',
-  penalty: '520',
+  penalty: '$520',
 }, {
   id: 2,
   name: 'Rodney Artichoke',
   mobile: '9988-7676',
   expiry: '01/12/2022',
-  penalty: '700',
+  penalty: '$700',
 }, {
   id: 3,
   name: 'Valentino Morose',
   mobile: '7900-7654',
   expiry: '01/01/2022',
-  penalty: '700',
+  penalty: '$700',
 }, {
   id: 4,
   name: 'Eric Widget',
   mobile: '5899-7654',
   expiry: '01/01/2022',
-  penalty: '100',
+  penalty: '$100',
 }]
 
 function App() {

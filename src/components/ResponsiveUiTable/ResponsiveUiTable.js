@@ -78,10 +78,13 @@ export default function ResponsiveUiTable(props) {
     }
   }
 
+  const columnClassName = (columnDefs?.length > 3) ? 'maxi-columns' : 'mini-columns';
+  const tableClassNames = `Rtable ${columnClassName} Rtable--5cols Rtable--collapse`;
+
   return (
     <TableContext.Provider value={tableContext}>
       <div className="wrapper" id={id} data-testid={id}>
-        <div className="Rtable Rtable--5cols Rtable--collapse">
+        <div className={tableClassNames}>
           <TableHeader />
           <TableRows />
         </div>
